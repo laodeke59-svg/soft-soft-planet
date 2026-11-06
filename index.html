@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#fff4f8">
+<title>软软星球 · Slime ASMR</title>
+<style>
+:root{--ink:#554657;--pink:#f6a9c8;--cream:#fff8f2;--glass:rgba(255,255,255,.72)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;background:radial-gradient(circle at 15% 12%,#fff 0 7%,transparent 28%),linear-gradient(135deg,#fff1f5,#f1edff 55%,#e9f8f7);overflow-x:hidden}
+button{font:inherit;color:inherit;border:0;cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:22px 26px 34px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(145deg,#ffb6d1,#c8b5ff);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 20px #d9b5d866}
+h1{font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-1px}.sub{font-size:12px;opacity:.65;margin-top:3px;letter-spacing:2px}
+.top-actions{display:flex;gap:9px}.icon-btn{width:42px;height:42px;border-radius:15px;background:var(--glass);box-shadow:0 5px 18px #907b9a12;font-size:18px}
+.hero{text-align:center;margin:30px 0 18px}.eyebrow{font-size:11px;letter-spacing:3px;color:#bd83a5;font-weight:800}.hero h2{font-size:clamp(25px,5vw,39px);margin:8px 0 6px;letter-spacing:-1.5px}.hero p{margin:0;color:#8b7b8d;font-size:14px}
+.layout{display:grid;grid-template-columns: minmax(0,1fr) 270px;gap:18px;align-items:stretch}
+.stage{position:relative;min-height:510px;border:1px solid #fff;border-radius:30px;background:linear-gradient(150deg,#ffffffb8,#fff9f4a8);box-shadow:0 22px 60px #8e77921c;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.stage:before,.stage:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none}.stage:before{width:230px;height:230px;background:#ffd6e5aa;top:-120px;left:-60px}.stage:after{width:260px;height:260px;background:#d9d0ff77;bottom:-150px;right:-80px}
+.stage-head{z-index:1;display:flex;align-items:center;justify-content:space-between;width:100%;font-size:12px;color:#9d8c9f}
+.live{display:flex;align-items:center;gap:6px}.dot{width:7px;height:7px;background:#7ed6b1;border-radius:50%;box-shadow:0 0 0 4px #7ed6b122}
+.slime-wrap{position:relative;width:min(76%,440px);height:310px;display:grid;place-items:center;z-index:1;touch-action:none;cursor:grab;user-select:none}
+.slime-wrap:active{cursor:grabbing}
+.slime{--c1:#ffb6d0;--c2:#ed79ac;position:relative;width:85%;height:65%;border-radius:48% 52% 43% 57% / 55% 48% 52% 45%;background:radial-gradient(ellipse at 32% 22%,#ffffffd9 0 4%,#ffffff55 10%,transparent 26%),radial-gradient(ellipse at 68% 75%,var(--c2),transparent 57%),linear-gradient(145deg,var(--c1),var(--c2));box-shadow:inset -16px -20px 30px #8d4d6a24,inset 12px 13px 24px #ffffff8a,0 30px 35px #9e6d8b30;filter:saturate(1.04);transition:filter .2s;transform:scale(1);will-change:transform}
+.slime:before{content:"";position:absolute;inset:9% 13% 18%;border-radius:50%;background:linear-gradient(130deg,#ffffff88,transparent 45%);transform:rotate(-18deg);filter:blur(5px)}
+.slime:after{content:"";position:absolute;width:13px;height:13px;border-radius:50%;background:#fff9;top:25%;left:24%;box-shadow:27px 13px 0 -4px #fff8,105px 85px 0 -5px #fff7}
+.sparkle{position:absolute;font-size:18px;color:#fff;filter:drop-shadow(0 2px 5px #d7a0be);animation:float 3s ease-in-out infinite;pointer-events:none}.s1{top:14%;left:13%}.s2{right:12%;top:25%;animation-delay:1s}.s3{bottom:13%;left:19%;animation-delay:1.7s}
+@keyframes float{50%{transform:translateY(-12px) rotate(20deg);opacity:.6}}
+.hint{z-index:1;text-align:center;font-size:13px;color:#a28fa3;margin-top:-2px}.hint strong{color:#c17da0}
+.controls{z-index:1;display:flex;gap:9px;margin-top:19px;flex-wrap:wrap;justify-content:center}.pill{padding:11px 16px;border-radius:14px;background:#fff;box-shadow:0 5px 16px #957d991c;font-size:12px;font-weight:700;transition:.2s}.pill:hover{transform:translateY(-2px)}.pill.primary{background:linear-gradient(120deg,#f7a9c8,#c4b3fa);color:#fff}
+.panel{border-radius:28px;background:#ffffffa8;border:1px solid #fff;box-shadow:0 18px 45px #8e779218;padding:20px;display:flex;flex-direction:column;gap:18px}
+.panel h3{font-size:14px;margin:0 0 11px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.choice{background:#fff;border:2px solid transparent;border-radius:16px;padding:10px 5px 8px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:7px;transition:.2s}
+.choice.active{border-color:#e8a2c3;box-shadow:0 5px 15px #dca6c52c}
+.swatch{width:40px;height:40px;border-radius:14px;box-shadow:inset -5px -6px 10px #00000012,inset 4px 4px 8px #ffffff99}
+.sound-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;margin:9px 0}
+.toggle{width:43px;height:25px;border-radius:30px;background:#e5dce8;padding:3px;transition:.2s}.toggle:after{content:"";display:block;width:19px;height:19px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 2px 5px #0002}.toggle.on{background:#d99cbd}.toggle.on:after{transform:translateX(18px)}
+.slider{width:100%;accent-color:#d78eb3}
+.tip{padding:13px;border-radius:17px;background:linear-gradient(130deg,#fff1f6,#f2efff);font-size:11px;line-height:1.7;color:#927d96}
+.footer{text-align:center;color:#ad9bad;font-size:11px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);background:#59495d;color:#fff;padding:11px 17px;border-radius:30px;font-size:12px;opacity:0;transition:.25s;pointer-events:none;z-index:5}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){.app{padding:16px 14px 25px}.hero{margin:24px 0 16px}.layout{grid-template-columns:1fr}.stage{min-height:420px;padding:18px}.slime-wrap{height:260px;width:94%}.panel{padding:17px}.choices{grid-template-columns:repeat(3,1fr)}.tip{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">🫧</div><div><h1>软软星球</h1><div class="sub">SLIME ASMR STUDIO</div></div></div>
+    <div class="top-actions"><button class="icon-btn" id="soundQuick" aria-label="声音开关">🔊</button><button class="icon-btn" id="reset" aria-label="重置">↻</button></div>
+  </header>
+  <section class="hero"><div class="eyebrow">A LITTLE MOMENT FOR YOURSELF</div><h2>捏一捏，把烦恼揉走</h2><p>慢下来，听见软软的声音。今天也要好好照顾自己。</p></section>
+  <main class="layout">
+    <section class="stage" aria-label="史莱姆互动区域">
+      <div class="stage-head"><span>✦ YOUR SLIME SPACE</span><span class="live"><i class="dot"></i> READY TO SQUISH</span></div>
+      <div class="slime-wrap" id="playArea" aria-label="按住并拖动史莱姆来捏它">
+        <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span>
+        <div class="slime" id="slime"></div>
+      </div>
+      <div class="hint">按住史莱姆 <strong>拖动 / 挤压 / 松开</strong></div>
+      <div class="controls"><button class="pill primary" id="squish">✋ 捏一下</button><button class="pill" id="stretch">↔ 拉伸</button><button class="pill" id="pop">✦ 啵啵声</button></div>
+    </section>
+    <aside class="panel">
+      <section><h3>🍡 选择你的史莱姆</h3><div class="choices" id="choices">
+        <button class="choice active" data-name="草莓牛奶" data-c1="#ffc5da" data-c2="#ee83ae"><span class="swatch" style="background:linear-gradient(145deg,#ffc5da,#ee83ae)"></span>草莓牛奶</button>
+        <button class="choice" data-name="葡萄泡泡" data-c1="#d8c8ff" data-c2="#9d83dc"><span class="swatch" style="background:linear-gradient(145deg,#d8c8ff,#9d83dc)"></span>葡萄泡泡</button>
+        <button class="choice" data-name="薄荷云朵" data-c1="#c3f0df" data-c2="#69c8b0"><span class="swatch" style="background:linear-gradient(145deg,#c3f0df,#69c8b0)"></span>薄荷云朵</button>
+        <button class="choice" data-name="柠檬苏打" data-c1="#fff0a9" data-c2="#eac65c"><span class="swatch" style="background:linear-gradient(145deg,#fff0a9,#eac65c)"></span>柠檬苏打</button>
+        <button class="choice" data-name="蓝莓果冻" data-c1="#b8dafa" data-c2="#729bd8"><span class="swatch" style="background:linear-gradient(145deg,#b8dafa,#729bd8)"></span>蓝莓果冻</button>
+        <button class="choice" data-name="蜜桃奶盖" data-c1="#ffd6b8" data-c2="#f5a27f"><span class="swatch" style="background:linear-gradient(145deg,#ffd6b8,#f5a27f)"></span>蜜桃奶盖</button>
+      </div></section>
+      <section><h3>🎧 ASMR 声音设置</h3>
+        <div class="sound-row"><span>捏捏音效</span><button class="toggle on" id="soundToggle" aria-label="切换捏捏音效"></button></div>
+        <div class="sound-row"><span>泡泡啵啵</span><button class="toggle on" id="popToggle" aria-label="切换泡泡音效"></button></div>
+        <div class="sound-row"><span>音量</span><strong id="volumeText">55%</strong></div><input class="slider" id="volume" type="range" min="0" max="100" value="55">
+      </section>
+      <div class="tip">🌙 <b>放松小提示</b><br>戴上耳机，轻轻按住软软的史莱姆。没有任务，也不用着急。给自己一点舒服的时间。</div>
+    </aside>
+  </main>
+  <div class="footer">MADE WITH ♡ FOR YOUR SOFT MOMENTS</div>
+</div>
+<div class="toast" id="toast">软乎乎！</div>
+<script>
+(() => {
+ const slime=document.getElementById('slime'), area=document.getElementById('playArea');
+ const toast=document.getElementById('toast'), volume=document.getElementById('volume');
+ let audio=null, soundOn=true, popOn=true, vol=.55, down=false, startX=0, startY=0, last=0, toastTimer;
+ function notify(t){toast.textContent=t;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),900)}
+ function ctx(){if(!audio){const A=window.AudioContext||window.webkitAudioContext;if(A)audio=new A()}if(audio?.state==='suspended')audio.resume();return audio}
+ function tone(freq,duration,type='sine',gain=.12,slide=0){const c=ctx();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,c.currentTime);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,freq+slide),c.currentTime+duration);g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(gain*vol,c.currentTime+.012);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+duration+.02)}
+ function squishSound(){if(!soundOn)return;tone(170+Math.random()*70,.16,'triangle',.17,-75);setTimeout(()=>tone(90+Math.random()*35,.12,'sine',.08,35),55)}
+ function popSound(){if(!popOn)return;tone(420+Math.random()*180,.09,'sine',.13,380);setTimeout(()=>tone(180+Math.random()*80,.11,'triangle',.10,-90),45)}
+ function animate(kind='squish'){slime.style.transition='transform .13s cubic-bezier(.2,.8,.3,1)';slime.style.transform=kind==='stretch'?'scale(1.28,.78) rotate(-5deg)':'scale(1.17,.82) rotate(2deg)';setTimeout(()=>{slime.style.transform='scale(.96,1.06) rotate(-1deg)';setTimeout(()=>{slime.style.transition='transform .55s cubic-bezier(.2,.8,.3,1)';slime.style.transform='scale(1) rotate(0)'},100)},130)}
+ function point(e){const r=area.getBoundingClientRect();return{x:e.clientX-r.left-r.width/2,y:e.clientY-r.top-r.height/2}}
+ area.addEventListener('pointerdown',e=>{down=true;area.setPointerCapture(e.pointerId);const p=point(e);startX=p.x;startY=p.y;last=Date.now();slime.style.transition='transform .08s';slime.style.transform='scale(1.12,.88)';squishSound()});
+ area.addEventListener('pointermove',e=>{if(!down)return;const p=point(e),dx=Math.max(-55,Math.min(55,(p.x-startX)*.24)),dy=Math.max(-35,Math.min(35,(p.y-startY)*.18));slime.style.transform=`translate(${dx}px,${dy}px) scale(${1+Math.min(.22,Math.abs(dx)/250)},${.88-Math.min(.16,Math.abs(dy)/220)})`;if(Date.now()-last>240){squishSound();last=Date.now()}});
+ function release(){if(!down)return;down=false;slime.style.transition='transform .6s cubic-bezier(.2,.8,.3,1)';slime.style.transform='scale(1)';if(popOn)popSound()}
+ area.addEventListener('pointerup',release);area.addEventListener('pointercancel',release);
+ document.getElementById('squish').onclick=()=>{ctx();animate();squishSound();notify('啵唧～软软的！')};
+ document.getElementById('stretch').onclick=()=>{ctx();animate('stretch');squishSound();notify('拉长一点点～')};
+ document.getElementById('pop').onclick=()=>{ctx();popSound();notify('啵！✨')};
+ document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{document.querySelector('.choice.active')?.classList.remove('active');b.classList.add('active');slime.style.setProperty('--c1',b.dataset.c1);slime.style.setProperty('--c2',b.dataset.c2);notify('换成'+b.dataset.name+'啦')});
+ function toggle(el,on){el.classList.toggle('on',on)}
+ document.getElementById('soundToggle').onclick=e=>{soundOn=!soundOn;toggle(e.currentTarget,soundOn)};
+ document.getElementById('popToggle').onclick=e=>{popOn=!popOn;toggle(e.currentTarget,popOn)};
+ document.getElementById('soundQuick').onclick=()=>{soundOn=!soundOn;toggle(document.getElementById('soundToggle'),soundOn);document.getElementById('soundQuick').textContent=soundOn?'🔊':'🔇';if(soundOn){ctx();squishSound()}};
+ volume.oninput=()=>{vol=volume.value/100;document.getElementById('volumeText').textContent=volume.value+'%'};
+ document.getElementById('reset').onclick=()=>{slime.style.transform='scale(1)';slime.style.setProperty('--c1','#ffc5da');slime.style.setProperty('--c2','#ee83ae');document.querySelector('.choice.active')?.classList.remove('active');document.querySelector('.choice').classList.add('active');notify('已经恢复初始状态')};
+})();
+</script>
+</body>
+</html>
